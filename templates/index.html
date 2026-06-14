@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Answer Evaluator</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+        }
+
+        .container {
+            width: 420px;
+            margin: 80px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        input[type="file"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #4facfe;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #3a8de0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>AI Answer Evaluator</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Answer Key Image</label>
+        <input type="file" name="answer_key" required>
+
+        <label>Student Answer Image</label>
+        <input type="file" name="student" required>
+
+        <label>1-Mark Range (e.g., 1-5)</label>
+        <input type="text" name="one_mark" placeholder="1-5" required>
+
+        <label>2-Mark Range (e.g., 6-10)</label>
+        <input type="text" name="two_mark" placeholder="6-10" required>
+
+        <button type="submit">Evaluate</button>
+
+    </form>
+</div>
+
+</body>
+</html>

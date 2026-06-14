@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Evaluation Result</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: #4facfe;
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .good {
+            color: green;
+            font-weight: 600;
+        }
+
+        .medium {
+            color: orange;
+            font-weight: 600;
+        }
+
+        .bad {
+            color: red;
+            font-weight: 600;
+        }
+
+        .total {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Evaluation Result</h2>
+
+<table>
+<tr>
+    <th>Question</th>
+    <th>Score</th>
+    <th>Reason</th>
+</tr>
+
+{% for r in results %}
+<tr>
+    <td>{{ r.q }}</td>
+    <td class="
+        {% if r.score == r.max %}good
+        {% elif r.score == 0 %}bad
+        {% else %}medium
+        {% endif %}
+    ">
+        {{ r.score }} / {{ r.max }}
+    </td>
+    <td>{{ r.reason }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<div class="total">
+    Total: {{ total }} / {{ max_total }}
+</div>
+
+<a href="/" class="back">Evaluate another paper</a>
+
+</body>
+</html>
