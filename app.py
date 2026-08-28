@@ -1,14 +1,23 @@
-from flask import Flask, render_template, request
+import os
 import re
+from flask import Flask, render_template, request
+from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer, util
 import google.generativeai as genai
 from PIL import Image
 
+# Load environment variables from .env file
+load_dotenv()
+
 app = Flask(__name__)
 
-# Gemini API
-genai.configure(api_key="AQ.Ab8RN6JAY6xn1vU806MZ42wt9St1-qL5TzekiyZCuL3yrRADjw")
-gemini_model = genai.GenerativeModel("gemini-2.5-flash")
+# Retrieve Gemini API Key securely from environment
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise ValueError("GEMINI_API_KEY environment variable is not set. Check your .env file.")
+
+genai.configure(api_key=api_key)
+gemini_model = genai.GenerativeModel("gemini-3.6-flash")
 
 # Semantic model
 model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -110,8 +119,8 @@ def parse_marks_range(one_range, two_range, total_q):
             start, end = map(int, rng.split('-'))
             for i in range(start, end + 1):
                 if 1 <= i <= total_q:   # ✅ FIX HERE
-                    marks[i-1] = val
-        except:
+                    marks[i - 1] = val
+        except Exception:
             pass
 
     fill(one_range, 1)
@@ -126,7 +135,6 @@ def parse_marks_range(one_range, two_range, total_q):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-
         # Upload images
         answer_key_img = request.files['answer_key']
         student_img = request.files['student']
@@ -160,17 +168,18 @@ def index():
         max_total = sum(marks_list)
 
         for i in sorted(answer_key.keys()):
+            current_max = marks_list[i - 1] if (i - 1) < len(marks_list) else 1
             score, reason = evaluate_answer(
                 answer_key[i],
                 student_answers.get(i, ""),
-                marks_list[i-1]
+                current_max
             )
 
             total += score
             results.append({
                 "q": i,
                 "score": score,
-                "max": marks_list[i-1],
+                "max": current_max,
                 "reason": reason
             })
 
