@@ -1,0 +1,7 @@
+Flask
+gunicorn
+google-generativeai
+sentence-transformers
+Pillow
+torch
+python-dotenv
