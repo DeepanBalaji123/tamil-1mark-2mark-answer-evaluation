@@ -1,20 +1,17 @@
 import os
 import re
 from flask import Flask, render_template, request
-from dotenv import load_dotenv
 import google.generativeai as genai
 from PIL import Image
 
-load_dotenv()
-
 app = Flask(__name__)
 
-# Retrieve API key
-api_key = os.getenv("GEMINI_API_KEY")
-if not api_key:
-    raise ValueError("GEMINI_API_KEY not configured in environment.")
+# ==============================
+# GEMINI API CONFIGURATION
+# ==============================
+API_KEY = "AQ.Ab8RN6KnwqlpibPBO3O950exM96CdzdMORXWKUsJiN8WDPs4tg"
 
-genai.configure(api_key=api_key)
+genai.configure(api_key=API_KEY.strip())
 gemini_model = genai.GenerativeModel("gemini-3.6-flash")
 
 
@@ -39,7 +36,7 @@ def evaluate_answer(correct, student, max_marks):
     if correct.strip().lower() == student.strip().lower():
         return max_marks, "Exact match"
 
-    # Prompt Gemini for semantic scoring instead of loading heavy local PyTorch models
+    # Prompt Gemini for semantic scoring
     eval_prompt = f"""
     Evaluate the following student's answer against the correct answer key.
     
